@@ -9,5 +9,13 @@ int main()
   int mult;
   int div;
 
-  printf("Printe primeiro numero:")
+  printf("Digete o primeiro numero: ");
+  scanf("d%",&a);
+
+  printf("Digete o segunto numero: ")
+  scanf("d%",&b);
+
+  soma = a + b
+  sub = a - b 
+  mult = a 
 }
