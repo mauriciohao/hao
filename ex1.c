@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+// exercicio 1 
 int main()
 {
   int a;
