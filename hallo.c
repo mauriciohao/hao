@@ -7,15 +7,22 @@ int main()
   int soma;
   int sub;
   int mult;
-  int div;
+  float div;
 
-  printf("Digete o primeiro numero: ");
-  scanf("d%",&a);
+  printf("Digete o primeiro numero:");
+  scanf("%d" , &a);
+  printf("Digete o segunto numero:");
+  scanf("%d" , &b);
 
-  printf("Digete o segunto numero: ")
-  scanf("d%",&b);
+  soma = a + b;
+  sub = a - b;
+  mult = a * b;
+  div = a / b;
 
-  soma = a + b
-  sub = a - b 
-  mult = a 
+  printf("Resultado da Soma = %d\n",soma);
+  printf("Resultado da Subtração = %d\n",sub);
+  printf("Resultado da Multiplicação = %d\n",mult);
+  printf("Resultado da Divisão = %f\n",div);
+
+  return 0;
 }
