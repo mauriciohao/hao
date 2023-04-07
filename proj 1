@@ -1,0 +1,115 @@
+// Nome. Hao yue zheng . 42205581
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+
+int main(void) {
+  char adj[6] = "aaaaa";  // adivinhe de jogador
+  int numtentar = 0;      // numero de tentativa
+  int i, j, corret, incorret;
+  char Nomejg[20];
+  clock_t inicio, fim;
+  double tmp;
+  
+  char aplv[20]; // adivinhe a palavra
+  FILE * arquivo; // sotiar palavra pelo dicionario 
+  arquivo = fopen("dicionario.txt", "r");
+  if (arquivo == NULL) {
+     printf("Erro ao tentar abrir arquivo dicionario!\n");
+     return -1;
+  }
+  srand(time(NULL));
+  int sotpl = rand() % 5; // sotiar palavra pelo dicionario 
+  int n;
+  for (n = 0; n <= sotpl; n++) {
+    fgets(aplv, 20, arquivo);
+  }
+  fclose(arquivo);
+
+   // remova a nova linha à direita
+  aplv[strcspn(aplv, "\n")] = '\0';
+
+  
+  printf("Jogo Wordle\n");
+  printf("Seis chances de tentativa \n");
+  printf("Nome de jogador:");
+  scanf("%s", Nomejg);
+  
+  inicio = clock(); // iniciar tempo
+ while (numtentar < 6) {
+  printf("Colocar palavra:");
+  scanf("%s", adj);
+
+  corret = 0; // O número de letras adivinhadas corretamente
+  incorret = 0; // o número de letras posicionadas incorretamente.
+
+  // Verificar se a palavra adivinhada está no dicionário
+  FILE *arquivo_dict;
+  arquivo_dict = fopen("dicionario.txt", "r");
+  int encontrada = 0;
+  char linha[20];
+  while (fgets(linha, 20, arquivo_dict) != NULL) {
+    linha[strcspn(linha, "\n")] = '\0'; // remover a nova linha à direita
+    if (strcmp(linha, adj) == 0) {
+      encontrada = 1;
+      break;
+    }
+  }
+  fclose(arquivo_dict);
+
+  if (!encontrada) {
+    printf("Palavra nao encontrada no dicionario, tente novamente.\n");
+    continue; // Pular para a próxima iteração sem contar como uma tentativa
+  }
+
+  for (i = 0; i < 5; i++) {
+    if (adj[i] == aplv[i]) {
+      printf("ˆ");
+      corret++;
+    } else {
+      for (j = 0; j < 5; j++) {
+        if (adj[i] == aplv[j]) {
+          printf("!");
+          incorret++;
+          break;
+        }
+      }
+      if (j == 5) {
+        printf("x");
+      }
+    }
+  }
+  printf("\n");
+
+  numtentar++;
+
+  if (strcmp(aplv, adj) == 0) {
+    break;
+  }
+}
+
+  fim = clock(); // fim de tempo
+  tmp = ((double) (fim - inicio));
+  printf("Acarbou tentativa!\n");
+  if (strcmp(aplv, adj) == 0) {
+    printf("Parabens! Voce acertou,Palavra correto %s\n", aplv);
+  } else {
+    printf("Desculpa! Voce erro,Palavra correto: %s\n", aplv);
+  }
+
+  printf("Tentativa:%d\n", numtentar);
+  printf("Tempo:%fs\n", tmp);
+
+  // arquivo de solicitar jogardor
+  FILE *arqjg;
+  arqjg = fopen("scores.txt", "a");
+  if (arqjg == NULL) {
+    printf("Erro ao tentar abrir arquivo scores!\n");
+  }
+  fprintf(arqjg, "Nome:%s,Tentativa:%d,Tempo:%fs,Palavra:%s\n", Nomejg,
+          numtentar, tmp, aplv);
+
+  fclose(arqjg);
+  return 0;
+}
+
